@@ -9,467 +9,484 @@
 
 -- predefined type, no DDL - XMLTYPE
 
-CREATE OR REPLACE PACKAGE PKG_SHOP AS
-    -- CRUD Clients
-  PROCEDURE ADD_CLIENT (
-    P_USRNME  VARCHAR2,
-    P_PASSWRD VARCHAR2,
-    P_ISADM   NUMBER
-  );
-  PROCEDURE UPDATE_CLIENT (
-    P_CID     NUMBER,
-    P_USRNME  VARCHAR2,
-    P_PASSWRD VARCHAR2
-  );
-  PROCEDURE DELETE_CLIENT (
-    P_CID NUMBER
-  );
+CREATE OR REPLACE PACKAGE pkg_shop AS
+   PROCEDURE add_client (
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2,
+      p_isadm   NUMBER
+   );
+   PROCEDURE update_client (
+      p_cid     NUMBER,
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2
+   );
+   PROCEDURE delete_client (
+      p_cid NUMBER
+   );
 
-    -- CRUD Games
-  PROCEDURE ADD_GAME (
-    P_NAME    VARCHAR2,
-    P_PRICE   NUMBER,
-    P_STOCK   NUMBER,
-    P_RELEASE DATE,
-    P_DESCR   VARCHAR2,
-    P_PID     NUMBER
-  );
-  PROCEDURE UPDATE_GAME (
-    P_GID   NUMBER,
-    P_PRICE NUMBER,
-    P_STOCK NUMBER
-  );
-  PROCEDURE DELETE_GAME (
-    P_GID NUMBER
-  );
+   PROCEDURE add_game (
+      p_name    VARCHAR2,
+      p_price   NUMBER,
+      p_stock   NUMBER,
+      p_release DATE,
+      p_descr   VARCHAR2,
+      p_pid     NUMBER
+   );
+   PROCEDURE update_game (
+      p_gid   NUMBER,
+      p_price NUMBER,
+      p_stock NUMBER
+   );
+   PROCEDURE delete_game (
+      p_gid NUMBER
+   );
 
-    -- CRUD Orders
-  PROCEDURE PLACE_ORDER (
-    P_CLIENT_ID NUMBER,
-    P_GAME_ID   NUMBER,
-    P_QUANTITY  NUMBER
-  );
-  PROCEDURE CANCEL_ORDER (
-    P_ORDER_ID NUMBER
-  );
+   PROCEDURE place_order (
+      p_client_id NUMBER,
+      p_game_id   NUMBER,
+      p_quantity  NUMBER
+   );
+   PROCEDURE cancel_order (
+      p_order_id NUMBER
+   );
 
-    -- Utility
-  FUNCTION GET_STOCK (
-    P_GAME_ID NUMBER
-  ) RETURN NUMBER;
-  FUNCTION GET_CLIENT_ORDERS (
-    P_CLIENT_ID NUMBER
-  ) RETURN SYS_REFCURSOR;
-END PKG_SHOP;
+   FUNCTION get_stock (
+      p_game_id NUMBER
+   ) RETURN NUMBER;
+   FUNCTION get_client_orders (
+      p_client_id NUMBER
+   ) RETURN SYS_REFCURSOR;
+END pkg_shop;
 /
 
-CREATE SEQUENCE SEQ_CLIENTS START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_clients START WITH 1 INCREMENT BY 1;
 
-CREATE SEQUENCE SEQ_GAMES START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_games START WITH 1 INCREMENT BY 1;
 
-CREATE SEQUENCE SEQ_ORDERS START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_orders START WITH 1 INCREMENT BY 1;
 
-CREATE SEQUENCE SEQ_PUBLISH START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE seq_publish START WITH 1 INCREMENT BY 1;
 
-CREATE TABLE CLIENTS (
-  CID     NUMBER(3) NOT NULL,
-  USRNME  VARCHAR2(20) NOT NULL,
-  PASSWRD VARCHAR2(20) NOT NULL,
-  ISADM   NUMBER(1) DEFAULT 0 NOT NULL
+CREATE TABLE clients (
+   cid     NUMBER(3) NOT NULL,
+   usrnme  VARCHAR2(20) NOT NULL,
+   passwrd VARCHAR2(20) NOT NULL,
+   isadm   NUMBER(1) DEFAULT 0 NOT NULL
 )
 LOGGING;
 
-ALTER TABLE CLIENTS
-  ADD CONSTRAINT CHK_PASSWRD_FORMAT CHECK ( REGEXP_LIKE ( PASSWRD,
+ALTER TABLE clients
+   ADD CONSTRAINT chk_passwrd_format CHECK ( REGEXP_LIKE ( passwrd,
+                                                           '^[a-zA-Z0-9]+$' ) );
+
+
+ALTER TABLE clients
+   ADD CONSTRAINT chk_usrnme_format CHECK ( REGEXP_LIKE ( usrnme,
                                                           '^[a-zA-Z0-9]+$' ) );
+ALTER TABLE clients ADD CONSTRAINT clients_pk PRIMARY KEY ( cid );
 
+ALTER TABLE clients ADD CONSTRAINT clients_usrnme_un UNIQUE ( usrnme );
 
-ALTER TABLE CLIENTS
-  ADD CONSTRAINT CHK_USRNME_FORMAT CHECK ( REGEXP_LIKE ( USRNME,
-                                                         '^[a-zA-Z0-9]+$' ) );
-ALTER TABLE CLIENTS ADD CONSTRAINT CLIENTS_PK PRIMARY KEY ( CID );
-
-ALTER TABLE CLIENTS ADD CONSTRAINT CLIENTS_USRNME_UN UNIQUE ( USRNME );
-
-CREATE TABLE CONTACT (
-  CLIENTS_CID NUMBER(3) NOT NULL,
-  PNUMBER     CHAR(10) NOT NULL,
-  EMAIL       VARCHAR2(30) NOT NULL
+CREATE TABLE contact (
+   clients_cid NUMBER(3) NOT NULL,
+   pnumber     CHAR(10) NOT NULL,
+   email       VARCHAR2(30) NOT NULL
 )
 LOGGING;
 
-ALTER TABLE CONTACT ADD CONSTRAINT CHK_EMAIL_FORMAT CHECK ( EMAIL LIKE '%@%.%' );
+ALTER TABLE contact ADD CONSTRAINT chk_email_format CHECK ( email LIKE '%@%.%' );
 
 
-ALTER TABLE CONTACT
-  ADD CONSTRAINT CHK_PNUMBER_FORMAT CHECK ( REGEXP_LIKE ( PNUMBER,
-                                                          '^07[0-9]{8}$' ) );
-ALTER TABLE CONTACT ADD CONSTRAINT CONTACT_PK PRIMARY KEY ( CLIENTS_CID );
+ALTER TABLE contact
+   ADD CONSTRAINT chk_pnumber_format CHECK ( REGEXP_LIKE ( pnumber,
+                                                           '^07[0-9]{8}$' ) );
+ALTER TABLE contact ADD CONSTRAINT contact_pk PRIMARY KEY ( clients_cid );
 
-ALTER TABLE CONTACT
-  ADD CONSTRAINT CONTACT_EMAIL_UN UNIQUE ( CLIENTS_CID,
-                                           EMAIL,
-                                           PNUMBER );
+ALTER TABLE contact
+   ADD CONSTRAINT contact_email_un UNIQUE ( clients_cid,
+                                            email,
+                                            pnumber );
 
-CREATE TABLE GAMES (
-  GID              NUMBER(3) NOT NULL,
-  GAME_NAME        VARCHAR2(30) NOT NULL,
-  PRICE            NUMBER(5) NOT NULL,
-  STOCK            NUMBER(5) NOT NULL,
-  RELEASE_DATE     DATE NOT NULL,
-  GAME_DESCRIPTION VARCHAR2(200),
-  PUBLISH_PID      NUMBER(3) NOT NULL
+CREATE TABLE games (
+   gid              NUMBER(3) NOT NULL,
+   game_name        VARCHAR2(30) NOT NULL,
+   price            NUMBER(5) NOT NULL,
+   stock            NUMBER(5) NOT NULL,
+   release_date     DATE NOT NULL,
+   game_description VARCHAR2(200),
+   publish_pid      NUMBER(3) NOT NULL
 )
 LOGGING;
 
-ALTER TABLE GAMES
-  ADD CONSTRAINT CHK_RELEASE_DATE_FORMAT
-    CHECK ( TO_CHAR(
-      RELEASE_DATE,
-      'YYYY-MM-DD'
-    ) LIKE '____-__-__' );
-ALTER TABLE GAMES ADD CONSTRAINT GAMES_PK PRIMARY KEY ( GID );
+ALTER TABLE games
+   ADD CONSTRAINT chk_release_date_format
+      CHECK ( to_char(
+         release_date,
+         'YYYY-MM-DD'
+      ) LIKE '____-__-__' );
+ALTER TABLE games ADD CONSTRAINT games_pk PRIMARY KEY ( gid );
 
-ALTER TABLE GAMES ADD CONSTRAINT GAMES_GAME_NAME_UN UNIQUE ( GAME_NAME );
+ALTER TABLE games ADD CONSTRAINT games_game_name_un UNIQUE ( game_name );
 
-CREATE TABLE ORDERS (
-  ORID        NUMBER(3) NOT NULL,
-  CLIENTS_CID NUMBER(3),
-  GAMES_GID   NUMBER(3),
-  GQUANTITY   NUMBER(5) NOT NULL
+CREATE TABLE orders (
+   orid        NUMBER(3) NOT NULL,
+   clients_cid NUMBER(3),
+   games_gid   NUMBER(3),
+   gquantity   NUMBER(5) NOT NULL
 )
 LOGGING;
 
-ALTER TABLE ORDERS ADD CONSTRAINT ORDERS_PK PRIMARY KEY ( ORID );
+ALTER TABLE orders ADD CONSTRAINT orders_pk PRIMARY KEY ( orid );
 
-CREATE TABLE PUBLISH (
-  PID            NUMBER(3) NOT NULL,
-  PUBLISHER_NAME VARCHAR2(30) NOT NULL
+CREATE TABLE publish (
+   pid            NUMBER(3) NOT NULL,
+   publisher_name VARCHAR2(30) NOT NULL
 )
 LOGGING;
 
-ALTER TABLE PUBLISH ADD CONSTRAINT PUBLISH_PK PRIMARY KEY ( PID );
+ALTER TABLE publish ADD CONSTRAINT publish_pk PRIMARY KEY ( pid );
 
-ALTER TABLE PUBLISH ADD CONSTRAINT PUBLISH_PUBLISHER_NAME_UN UNIQUE ( PUBLISHER_NAME );
+ALTER TABLE publish ADD CONSTRAINT publish_publisher_name_un UNIQUE ( publisher_name );
 
-ALTER TABLE CONTACT
-  ADD CONSTRAINT CONTACT_CLIENTS_FK
-    FOREIGN KEY ( CLIENTS_CID )
-      REFERENCES CLIENTS ( CID )
-      NOT DEFERRABLE;
+ALTER TABLE contact
+   ADD CONSTRAINT contact_clients_fk
+      FOREIGN KEY ( clients_cid )
+         REFERENCES clients ( cid )
+         NOT DEFERRABLE;
 
-ALTER TABLE GAMES
-  ADD CONSTRAINT GAMES_PUBLISH_FK
-    FOREIGN KEY ( PUBLISH_PID )
-      REFERENCES PUBLISH ( PID )
-      NOT DEFERRABLE;
+ALTER TABLE games
+   ADD CONSTRAINT games_publish_fk
+      FOREIGN KEY ( publish_pid )
+         REFERENCES publish ( pid )
+         NOT DEFERRABLE;
 
-ALTER TABLE ORDERS
-  ADD CONSTRAINT ORDERS_CLIENTS_FK
-    FOREIGN KEY ( CLIENTS_CID )
-      REFERENCES CLIENTS ( CID )
-      NOT DEFERRABLE;
+ALTER TABLE orders
+   ADD CONSTRAINT orders_clients_fk
+      FOREIGN KEY ( clients_cid )
+         REFERENCES clients ( cid )
+         NOT DEFERRABLE;
 
-ALTER TABLE ORDERS
-  ADD CONSTRAINT ORDERS_GAMES_FK
-    FOREIGN KEY ( GAMES_GID )
-      REFERENCES GAMES ( GID )
-      NOT DEFERRABLE;
+ALTER TABLE orders
+   ADD CONSTRAINT orders_games_fk
+      FOREIGN KEY ( games_gid )
+         REFERENCES games ( gid )
+         NOT DEFERRABLE;
 
-CREATE OR REPLACE TRIGGER TRG_CLIENTS_BI BEFORE
-  INSERT ON CLIENTS
-  FOR EACH ROW
+CREATE OR REPLACE TRIGGER trg_clients_bi BEFORE
+   INSERT ON clients
+   FOR EACH ROW
 BEGIN
-  :NEW.CID := SEQ_CLIENTS.NEXTVAL;
+   :new.cid := seq_clients.nextval;
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_GAMES_BI BEFORE
-  INSERT ON GAMES
-  FOR EACH ROW
+CREATE OR REPLACE TRIGGER trg_games_bi BEFORE
+   INSERT ON games
+   FOR EACH ROW
 BEGIN
-  :NEW.GID := SEQ_GAMES.NEXTVAL;
+   :new.gid := seq_games.nextval;
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_ORDERS_BI BEFORE
-  INSERT ON ORDERS
-  FOR EACH ROW
+CREATE OR REPLACE TRIGGER trg_orders_bi BEFORE
+   INSERT ON orders
+   FOR EACH ROW
 BEGIN
-  :NEW.ORID := SEQ_ORDERS.NEXTVAL;
+   :new.orid := seq_orders.nextval;
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_ORDERS_STOCK_CHECK BEFORE
-  INSERT OR UPDATE ON ORDERS
-  FOR EACH ROW
+CREATE OR REPLACE TRIGGER trg_orders_stock_check BEFORE
+   INSERT OR UPDATE ON orders
+   FOR EACH ROW
 DECLARE
-  V_STOCK GAMES.STOCK%TYPE;
+   v_stock games.stock%TYPE;
 BEGIN
-  SELECT STOCK
-    INTO V_STOCK
-    FROM GAMES
-   WHERE GID = :NEW.GAMES_GID;
-  IF :NEW.GQUANTITY > V_STOCK THEN
-    RAISE_APPLICATION_ERROR(
-      -20001,
-      'Order quantity exceeds available stock.'
-    );
-  END IF;
+   SELECT stock
+     INTO v_stock
+     FROM games
+    WHERE gid = :new.games_gid;
+   IF :new.gquantity > v_stock THEN
+      raise_application_error(
+         -20001,
+         'Order quantity exceeds available stock.'
+      );
+   END IF;
 END;
 /
 
-CREATE OR REPLACE TRIGGER TRG_PUBLISH_BI BEFORE
-  INSERT ON PUBLISH
-  FOR EACH ROW
+CREATE OR REPLACE TRIGGER trg_publish_bi BEFORE
+   INSERT ON publish
+   FOR EACH ROW
 BEGIN
-  :NEW.PID := SEQ_PUBLISH.NEXTVAL;
+   :new.pid := seq_publish.nextval;
 END;
 /
 
-CREATE OR REPLACE PACKAGE BODY PKG_SHOP AS
-  PROCEDURE ADD_CLIENT (
-    P_USRNME  VARCHAR2,
-    P_PASSWRD VARCHAR2,
-    P_ISADM   NUMBER
-  ) IS
-    V_EXISTS NUMBER;
-  BEGIN
-    SAVEPOINT SP_ADD_CLIENT;
-    SELECT COUNT(*)
-      INTO V_EXISTS
-      FROM CLIENTS
-     WHERE USRNME = P_USRNME;
-    IF V_EXISTS > 0 THEN
-      RAISE_APPLICATION_ERROR(
-        -20010,
-        'Username deja folosit.'
-      );
-    END IF;
-    INSERT INTO CLIENTS (
-      USRNME,
-      PASSWRD,
-      ISADM
-    ) VALUES ( P_USRNME,
-               P_PASSWRD,
-               NVL(
-                 P_ISADM,
-                 0
-               ) );
+CREATE OR REPLACE PACKAGE BODY pkg_shop AS
+   PROCEDURE add_client (
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2,
+      p_isadm   NUMBER
+   ) IS
+      v_exists NUMBER;
+      v_cid    clients.cid%TYPE;
+   BEGIN
+      SAVEPOINT sp_add_client;
+      INSERT INTO clients (
+         usrnme,
+         passwrd,
+         isadm
+      ) VALUES ( p_usrnme,
+                 p_passwrd,
+                 nvl(
+                    p_isadm,
+                    0
+                 ) );
 
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_ADD_CLIENT;
-      RAISE;
-  END;
+      SELECT seq_clients.CURRVAL
+        INTO v_cid
+        FROM dual;
 
-  PROCEDURE UPDATE_CLIENT (
-    P_CID     NUMBER,
-    P_USRNME  VARCHAR2,
-    P_PASSWRD VARCHAR2
-  ) IS
-  BEGIN
-    SAVEPOINT SP_UPDATE_CLIENT;
-    UPDATE CLIENTS
-       SET USRNME = P_USRNME,
-           PASSWRD = P_PASSWRD
-     WHERE CID = P_CID;
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_UPDATE_CLIENT;
-      RAISE;
-  END;
+      INSERT INTO contact (
+         clients_cid,
+         pnumber,
+         email
+      ) VALUES ( v_cid,
+                 p_pnumber,
+                 p_email );
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_add_client;
+         RAISE;
+   END;
 
-  PROCEDURE DELETE_CLIENT (
-    P_CID NUMBER
-  ) IS
-  BEGIN
-    SAVEPOINT SP_DELETE_CLIENT;
-    DELETE FROM CLIENTS
-     WHERE CID = P_CID;
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_DELETE_CLIENT;
-      RAISE;
-  END;
+   PROCEDURE update_client (
+      p_cid     NUMBER,
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2
+   ) IS
+      v_cid clients.cid%TYPE;
+   BEGIN
+      SAVEPOINT sp_update_client;
+      UPDATE clients
+         SET usrnme = p_usrnme,
+             passwrd = p_passwrd
+       WHERE cid = p_cid;
 
-  PROCEDURE ADD_GAME (
-    P_NAME    VARCHAR2,
-    P_PRICE   NUMBER,
-    P_STOCK   NUMBER,
-    P_RELEASE DATE,
-    P_DESCR   VARCHAR2,
-    P_PID     NUMBER
-  ) IS
-  BEGIN
-    SAVEPOINT SP_ADD_GAME;
-    IF P_RELEASE > SYSDATE THEN
-      RAISE_APPLICATION_ERROR(
-        -20011,
-        'Data lansarii nu poate fi in viitor.'
-      );
-    END IF;
-    INSERT INTO GAMES (
-      GAME_NAME,
-      PRICE,
-      STOCK,
-      RELEASE_DATE,
-      GAME_DESCRIPTION,
-      PUBLISH_PID
-    ) VALUES ( P_NAME,
-               P_PRICE,
-               P_STOCK,
-               P_RELEASE,
-               P_DESCR,
-               P_PID );
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_ADD_GAME;
-      RAISE;
-  END;
+      UPDATE contact
+         SET email = p_email,
+             pnumber = p_pnumber
+       WHERE clients_cid = p_cid;
 
-  PROCEDURE UPDATE_GAME (
-    P_GID   NUMBER,
-    P_PRICE NUMBER,
-    P_STOCK NUMBER
-  ) IS
-  BEGIN
-    SAVEPOINT SP_UPDATE_GAME;
-    UPDATE GAMES
-       SET PRICE = P_PRICE,
-           STOCK = P_STOCK
-     WHERE GID = P_GID;
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_UPDATE_GAME;
-      RAISE;
-  END;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_update_client;
+         RAISE;
+   END;
 
-  PROCEDURE DELETE_GAME (
-    P_GID NUMBER
-  ) IS
-  BEGIN
-    SAVEPOINT SP_DELETE_GAME;
-    DELETE FROM GAMES
-     WHERE GID = P_GID;
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_DELETE_GAME;
-      RAISE;
-  END;
+   PROCEDURE delete_client (
+      p_cid NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_delete_client;
+      DELETE FROM contact
+       WHERE clients_cid = p_cid;
 
-  PROCEDURE PLACE_ORDER (
-    P_CLIENT_ID NUMBER,
-    P_GAME_ID   NUMBER,
-    P_QUANTITY  NUMBER
-  ) IS
-    V_STOCK NUMBER;
-  BEGIN
-    SAVEPOINT SP_PLACE_ORDER;
-    V_STOCK := GET_STOCK(P_GAME_ID);
-    IF P_QUANTITY > V_STOCK THEN
-      RAISE_APPLICATION_ERROR(
-        -20013,
-        'Stoc insuficient pentru joc.'
-      );
-    END IF;
-    INSERT INTO ORDERS (
-      CLIENTS_CID,
-      GAMES_GID,
-      GQUANTITY
-    ) VALUES ( P_CLIENT_ID,
-               P_GAME_ID,
-               P_QUANTITY );
+      DELETE FROM clients
+       WHERE cid = p_cid;
 
-    UPDATE GAMES
-       SET
-      STOCK = STOCK - P_QUANTITY
-     WHERE GID = P_GAME_ID;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_delete_client;
+         RAISE;
+   END;
 
-    COMMIT;
-  EXCEPTION
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_PLACE_ORDER;
-      RAISE;
-  END;
+   PROCEDURE add_game (
+      p_name    VARCHAR2,
+      p_price   NUMBER,
+      p_stock   NUMBER,
+      p_release DATE,
+      p_descr   VARCHAR2,
+      p_pid     NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_add_game;
+      IF p_release > sysdate THEN
+         raise_application_error(
+            -20011,
+            'Data lansarii nu poate fi in viitor.'
+         );
+      END IF;
+      INSERT INTO games (
+         game_name,
+         price,
+         stock,
+         release_date,
+         game_description,
+         publish_pid
+      ) VALUES ( p_name,
+                 p_price,
+                 p_stock,
+                 p_release,
+                 p_descr,
+                 p_pid );
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_add_game;
+         RAISE;
+   END;
 
-  PROCEDURE CANCEL_ORDER (
-    P_ORDER_ID NUMBER
-  ) IS
-    V_GID      GAMES.GID%TYPE;
-    V_QUANTITY ORDERS.GQUANTITY%TYPE;
-  BEGIN
-    SAVEPOINT SP_CANCEL_ORDER;
-    SELECT GAMES_GID,
-           GQUANTITY
-      INTO
-      V_GID,
-      V_QUANTITY
-      FROM ORDERS
-     WHERE ORID = P_ORDER_ID;
+   PROCEDURE update_game (
+      p_gid   NUMBER,
+      p_price NUMBER,
+      p_stock NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_update_game;
+      UPDATE games
+         SET price = p_price,
+             stock = p_stock
+       WHERE gid = p_gid;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_update_game;
+         RAISE;
+   END;
 
-    DELETE FROM ORDERS
-     WHERE ORID = P_ORDER_ID;
+   PROCEDURE delete_game (
+      p_gid NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_delete_game;
+      DELETE FROM games
+       WHERE gid = p_gid;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_delete_game;
+         RAISE;
+   END;
 
-    UPDATE GAMES
-       SET
-      STOCK = STOCK + V_QUANTITY
-     WHERE GID = V_GID;
+   PROCEDURE place_order (
+      p_client_id NUMBER,
+      p_game_id   NUMBER,
+      p_quantity  NUMBER
+   ) IS
+      v_stock NUMBER;
+   BEGIN
+      SAVEPOINT sp_place_order;
+      v_stock := get_stock(p_game_id);
+      IF p_quantity > v_stock THEN
+         raise_application_error(
+            -20013,
+            'Stoc insuficient pentru joc.'
+         );
+      END IF;
+      INSERT INTO orders (
+         clients_cid,
+         games_gid,
+         gquantity
+      ) VALUES ( p_client_id,
+                 p_game_id,
+                 p_quantity );
 
-    COMMIT;
-  EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-      RAISE_APPLICATION_ERROR(
-        -20014,
-        'Comanda inexistenta.'
-      );
-    WHEN OTHERS THEN
-      ROLLBACK TO SP_CANCEL_ORDER;
-      RAISE;
-  END;
+      UPDATE games
+         SET
+         stock = stock - p_quantity
+       WHERE gid = p_game_id;
 
-  FUNCTION GET_STOCK (
-    P_GAME_ID NUMBER
-  ) RETURN NUMBER IS
-    V_STOCK NUMBER;
-  BEGIN
-    SELECT STOCK
-      INTO V_STOCK
-      FROM GAMES
-     WHERE GID = P_GAME_ID;
-    RETURN V_STOCK;
-  EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-      RAISE_APPLICATION_ERROR(
-        -20012,
-        'Joc inexistent.'
-      );
-  END;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_place_order;
+         RAISE;
+   END;
 
-  FUNCTION GET_CLIENT_ORDERS (
-    P_CLIENT_ID NUMBER
-  ) RETURN SYS_REFCURSOR IS
-    RC SYS_REFCURSOR;
-  BEGIN
-    OPEN RC FOR SELECT O.ORID,
-                       G.GAME_NAME,
-                       O.GQUANTITY,
-                       G.PRICE,
-                       O.GQUANTITY * G.PRICE AS TOTAL
-                              FROM ORDERS O
-                              JOIN GAMES G
-                            ON O.GAMES_GID = G.GID
-                 WHERE O.CLIENTS_CID = P_CLIENT_ID;
-    RETURN RC;
-  END;
+   PROCEDURE cancel_order (
+      p_order_id NUMBER
+   ) IS
+      v_gid      games.gid%TYPE;
+      v_quantity orders.gquantity%TYPE;
+   BEGIN
+      SAVEPOINT sp_cancel_order;
+      SELECT games_gid,
+             gquantity
+        INTO
+         v_gid,
+         v_quantity
+        FROM orders
+       WHERE orid = p_order_id;
 
-END PKG_SHOP;
+      DELETE FROM orders
+       WHERE orid = p_order_id;
+
+      UPDATE games
+         SET
+         stock = stock + v_quantity
+       WHERE gid = v_gid;
+
+      COMMIT;
+   EXCEPTION
+      WHEN no_data_found THEN
+         raise_application_error(
+            -20014,
+            'Comanda inexistenta.'
+         );
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_cancel_order;
+         RAISE;
+   END;
+
+   FUNCTION get_stock (
+      p_game_id NUMBER
+   ) RETURN NUMBER IS
+      v_stock NUMBER;
+   BEGIN
+      SELECT stock
+        INTO v_stock
+        FROM games
+       WHERE gid = p_game_id;
+      RETURN v_stock;
+   EXCEPTION
+      WHEN no_data_found THEN
+         raise_application_error(
+            -20012,
+            'Joc inexistent.'
+         );
+   END;
+
+   FUNCTION get_client_orders (
+      p_client_id NUMBER
+   ) RETURN SYS_REFCURSOR IS
+      rc SYS_REFCURSOR;
+   BEGIN
+      OPEN rc FOR SELECT o.orid,
+                         g.game_name,
+                         o.gquantity,
+                         g.price,
+                         o.gquantity * g.price AS total
+                                FROM orders o
+                                JOIN games g
+                              ON o.games_gid = g.gid
+                   WHERE o.clients_cid = p_client_id;
+      RETURN rc;
+   END;
+
+END pkg_shop;
 /
 
 
