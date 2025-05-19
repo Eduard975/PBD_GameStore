@@ -1,0 +1,90 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<DomainFile class="oracle.dbtools.crest.model.design.DomainFileWrapper" fileName="GameStore_Domains">
+<domains>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_3_0_0" id="3D53FD94-FEE3-FE9E-B827-05B922575633">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>3</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_20" id="40FABBAA-3087-355C-47EC-AC60B9EEFDB0">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>20</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_5_0_0" id="753D33B2-86FF-D101-0574-D93EF2DF2843">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_30" id="8553C328-791E-C4BA-0AD4-C37CD6D24209">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>30</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="NUMERIC_1_0_0" id="858ECCD0-A366-1477-9B75-7FF5D7C329CE">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>1</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>0</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="CHAR_0_0_10" id="8A528E55-AB96-803D-92B5-BACA15DC8765">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>10</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT025</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="Date_0_0_0" id="AACC8902-7005-D1A2-AB0F-F12C354A5846">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT007</logicalDatatype>
+</Domain>
+<Domain class="oracle.dbtools.crest.model.design.Domain" name="VARCHAR_0_0_200" id="F41C05D9-4396-D6BC-78EB-A8B5B9308D01">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:44 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<avTSortOrder>0</avTSortOrder>
+<dataTypePrecision>0</dataTypePrecision>
+<dataTypeScale>0</dataTypeScale>
+<dataTypeSize>200</dataTypeSize>
+<fileName>GameStore_Domains</fileName>
+<logicalDatatype>LOGDT024</logicalDatatype>
+</Domain>
+</domains>
+</DomainFile>

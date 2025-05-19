@@ -1,0 +1,39 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="PUBLISH" directorySegmentName="seg_0" id="7BE2E506-FB61-DC8E-3A1F-3072C6FB7C72">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:04:00 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="PID" id="3A9A16C5-9E86-0A25-928F-D672629363BC">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:04:00 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="PUBLISHER_NAME" id="4DC232E6-BEAE-B297-E50D-2CA1AAB40671">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:04:00 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="PUBLISH_PK" id="833B370B-607F-6378-22F4-701154922F6C">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:04:00 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="PUBLISH_PUBLISHER_NAME_UN" id="1921AD90-8859-8D59-809B-2D67C40E2E7A">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:04:00 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev20c>

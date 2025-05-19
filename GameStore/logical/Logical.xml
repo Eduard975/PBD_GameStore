@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<LogicalDesign class="oracle.dbtools.crest.model.design.logical.LogicalDesign" name="Logical" id="F3B208BC-4FAB-1A83-3C4D-B591D421A04A" mainViewID="79DB699F-08B1-871F-F7C7-A4A7C2531C4C">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:05 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+</LogicalDesign>

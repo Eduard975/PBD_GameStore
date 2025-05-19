@@ -1,0 +1,15 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="GameStore" id="6FB10013-8CAE-158A-751B-8D7C21840E9A" mainViewID="FF5D13AD-6B19-ED87-BC2A-F6EA85B8CBD9">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 11:03:57 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<shouldBeOpen>false</shouldBeOpen>
+<selectedRDBMSSite>01F6E6D1-21D0-CFBD-ABDD-3988D1813575</selectedRDBMSSite>
+<importDDLFileStamps>
+<importDDLFileStamp class="oracle.dbtools.crest.imports.DDLFileStamp">
+<fileName>CreateGameStore.sql</fileName>
+<pathName>E:\AC\PBD\PBD_GameStore\Scripts</pathName>
+<dbType>17</dbType>
+</importDDLFileStamp>
+</importDDLFileStamps>
+</relationalModel>

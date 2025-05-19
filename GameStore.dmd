@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="GameStore" id="FE2A86F3-C461-76C8-0E3F-5C92B145FDA2" version="3.5">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-19 09:38:05 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>FE2A86F3-C461-76C8-0E3F-5C92B145FDA2</designId>
+<usedDesignStorageDescriptors>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="D3B01943-A2AF-C876-B39D-0353A083B82D">
+<designStoragePath>D:\GameStore</designStoragePath>
+</designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="84CBD8E0-E1EB-BBC1-803A-AB77500EC4A7">
+<designStoragePath>D:\CreateGameStore</designStoragePath>
+</designDescr>
+</usedDesignStorageDescriptors>
+</OSDM_Design>
