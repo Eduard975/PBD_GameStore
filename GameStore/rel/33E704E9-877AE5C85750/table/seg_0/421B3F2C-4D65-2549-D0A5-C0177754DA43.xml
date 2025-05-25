@@ -1,0 +1,101 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="421B3F2C-4D65-2549-D0A5-C0177754DA43" name="contact">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>AE496631-A8C0-B651-8141-ADEFF38737FC</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="clients_cid" id="937E8C6C-D59C-5A30-5105-AED4E9F9B546">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>8A679B05-17F9-1642-FA86-F9393D24BA2C</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>3D53FD94-FEE3-FE9E-B827-05B922575633</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8DCBC594-A0EA-C32C-2780-51CCFC807A3D" referredColumn="D140B5EB-E703-9787-9183-B187E5DBA42D"/>
+</associations>
+</Column>
+<Column name="pnumber" id="77709ED8-6EB9-36FF-A05F-F1070BDC5260">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>F35CB235-11C3-152B-B1B2-AA89F0A3004B</importedID>
+<constraintName>chk_pnumber_format</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<domain>8A528E55-AB96-803D-92B5-BACA15DC8765</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 21c" definition="REGEXP_LIKE ( pnumber, &apos;^07[0-9]{8}$&apos; )"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="email" id="75851639-7BE8-9C80-4753-B6A61D2C75A4">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>BAF9E642-A112-5AA4-C3BE-7FE688F325F4</importedID>
+<constraintName>chk_email_format</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>8553C328-791E-C4BA-0AD4-C37CD6D24209</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 21c" definition="email LIKE &apos;%@%.%&apos;"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2944AAE7-6983-BCA3-6EEC-231539B4B814" name="contact_pk">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>F2E73D1F-6A7A-A7A8-3A4E-B8E124B16308</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="937E8C6C-D59C-5A30-5105-AED4E9F9B546"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="54463F56-3871-5C0B-AC22-C2F43CAFDD2E" name="contact_email_un">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>BCEE6E0B-2B4D-B149-BCF4-9EB19DA6773F</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="937E8C6C-D59C-5A30-5105-AED4E9F9B546"/>
+<colUsage columnID="75851639-7BE8-9C80-4753-B6A61D2C75A4"/>
+<colUsage columnID="77709ED8-6EB9-36FF-A05F-F1070BDC5260"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E6B8D14B-1281-2C98-9E93-47E89A403B29" name="contact_clients_fk">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="937E8C6C-D59C-5A30-5105-AED4E9F9B546"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

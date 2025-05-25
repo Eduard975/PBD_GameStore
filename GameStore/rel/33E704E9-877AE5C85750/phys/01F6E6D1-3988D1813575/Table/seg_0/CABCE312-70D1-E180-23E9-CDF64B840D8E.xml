@@ -1,0 +1,71 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev20c class="oracle.dbtools.crest.model.design.storage.oracle.v20c.TableProxyOraclev20c" name="games" directorySegmentName="seg_0" id="CABCE312-70D1-E180-23E9-CDF64B840D8E">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="game_description" id="4775A37C-7B80-F1D5-58CF-639EF0CC1661">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="publish_pid" id="49F7438A-723C-1B7E-3E00-18A259C3A8BE">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="price" id="7BFA3B26-4D0E-A7A3-0101-DD9EC291F017">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="stock" id="8AA3CB5D-093A-33EA-B165-61893AA1871E">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="release_date" id="8F5F6805-6F8E-587E-DC3D-9684837051FF">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="game_name" id="9A936CCE-F0E1-13F4-B11F-C9F5EDC51F76">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="gid" id="EF7CB4EF-7716-CDC3-CD31-4A50CD2C1101">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="games_publish_fk" id="EACFB2E5-8649-3774-4ABF-02CB9570296F">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="games_pk" id="BAE6396B-45B4-78F8-E4EA-67C7649CF499">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+<uniqueKeys>
+<UniqueKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UniqueOraclev10g" name="games_game_name_un" id="2D4B377E-5869-470B-3959-C0EE3587B660">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</UniqueKey>
+</uniqueKeys>
+</TableProxyOraclev20c>

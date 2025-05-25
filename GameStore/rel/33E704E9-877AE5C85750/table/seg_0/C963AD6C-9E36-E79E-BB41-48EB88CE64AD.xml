@@ -1,0 +1,64 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C963AD6C-9E36-E79E-BB41-48EB88CE64AD" name="publish">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>7A57DF97-2213-E693-2C40-1986CE4B5D42</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="pid" id="A7389A6D-07C2-1249-AFCB-3AE18341B69C">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>529B5E17-E03D-067E-4355-8AB4D1CCFEBD</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>3D53FD94-FEE3-FE9E-B827-05B922575633</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="publisher_name" id="6B59CC2F-722D-764B-E35F-E05C216CFB25">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>DA07D391-65D9-B349-9A67-4C5225867498</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>8553C328-791E-C4BA-0AD4-C37CD6D24209</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C2357523-0232-5BF3-EF59-082C46AF2F49" name="publish_pk">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>7B327C43-D1DA-2616-AC46-7E9CF965BC79</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A7389A6D-07C2-1249-AFCB-3AE18341B69C"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="BD8B899D-9246-497E-B042-36B3D4BBBC55" name="publish_publisher_name_un">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>5B935A12-978C-4212-56AB-C816A75AC4A0</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6B59CC2F-722D-764B-E35F-E05C216CFB25"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

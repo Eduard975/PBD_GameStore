@@ -1,0 +1,324 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<PackageOracle class="oracle.dbtools.crest.model.design.storage.oracle.PackageOracle" name="pkg_store" directorySegmentName="seg_0" id="A814F755-FDE4-303A-0ED8-02F5745500D7">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:09 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<source>CREATE OR REPLACE PACKAGE pkg_store AS
+   PROCEDURE add_client (
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2,
+      p_isadm   NUMBER
+   );
+   PROCEDURE update_client (
+      p_cid     NUMBER,
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2
+   );
+   PROCEDURE delete_client (
+      p_cid NUMBER
+   );
+
+   PROCEDURE add_game (
+      p_name    VARCHAR2,
+      p_price   NUMBER,
+      p_stock   NUMBER,
+      p_release DATE,
+      p_descr   VARCHAR2,
+      p_pid     NUMBER
+   );
+   PROCEDURE update_game (
+      p_gid   NUMBER,
+      p_price NUMBER,
+      p_stock NUMBER
+   );
+   PROCEDURE delete_game (
+      p_gid NUMBER
+   );
+
+   PROCEDURE place_order (
+      p_client_id NUMBER,
+      p_game_id   NUMBER,
+      p_quantity  NUMBER
+   );
+   PROCEDURE cancel_order (
+      p_order_id NUMBER
+   );
+
+   FUNCTION get_stock (
+      p_game_id NUMBER
+   ) RETURN NUMBER;
+   FUNCTION get_client_orders (
+      p_client_id NUMBER
+   ) RETURN SYS_REFCURSOR;
+END pkg_store;</source>
+<body class="oracle.dbtools.crest.model.design.storage.oracle.PackageBodyOracle" name="pkg_store" id="A814F755-FDE4-303A-0ED8-02F5745500D7">
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<source>CREATE OR REPLACE PACKAGE BODY pkg_store AS
+   PROCEDURE add_client (
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2,
+      p_isadm   NUMBER
+   ) IS
+      v_exists NUMBER;
+      v_cid    clients.cid%TYPE;
+   BEGIN
+      SAVEPOINT sp_add_client;
+      INSERT INTO clients (
+         usrnme,
+         passwrd,
+         isadm
+      ) VALUES ( p_usrnme,
+                 p_passwrd,
+                 nvl(
+                    p_isadm,
+                    0
+                 ) );
+
+      SELECT seq_clients.CURRVAL
+        INTO v_cid
+        FROM dual;
+
+      INSERT INTO contact (
+         clients_cid,
+         pnumber,
+         email
+      ) VALUES ( v_cid,
+                 p_pnumber,
+                 p_email );
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_add_client;
+         RAISE;
+   END;
+
+   PROCEDURE update_client (
+      p_cid     NUMBER,
+      p_usrnme  VARCHAR2,
+      p_passwrd VARCHAR2,
+      p_pnumber VARCHAR2,
+      p_email   VARCHAR2
+   ) IS
+      v_cid clients.cid%TYPE;
+   BEGIN
+      SAVEPOINT sp_update_client;
+      UPDATE clients
+         SET usrnme = p_usrnme,
+             passwrd = p_passwrd
+       WHERE cid = p_cid;
+
+      UPDATE contact
+         SET email = p_email,
+             pnumber = p_pnumber
+       WHERE clients_cid = p_cid;
+
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_update_client;
+         RAISE;
+   END;
+
+   PROCEDURE delete_client (
+      p_cid NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_delete_client;
+      DELETE FROM contact
+       WHERE clients_cid = p_cid;
+
+      DELETE FROM clients
+       WHERE cid = p_cid;
+
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_delete_client;
+         RAISE;
+   END;
+
+   PROCEDURE add_game (
+      p_name    VARCHAR2,
+      p_price   NUMBER,
+      p_stock   NUMBER,
+      p_release DATE,
+      p_descr   VARCHAR2,
+      p_pid     NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_add_game;
+      IF p_release &gt; sysdate THEN
+         raise_application_error(
+            -20011,
+            &apos;Data lansarii nu poate fi in viitor.&apos;
+         );
+      END IF;
+      INSERT INTO games (
+         game_name,
+         price,
+         stock,
+         release_date,
+         game_description,
+         publish_pid
+      ) VALUES ( p_name,
+                 p_price,
+                 p_stock,
+                 p_release,
+                 p_descr,
+                 p_pid );
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_add_game;
+         RAISE;
+   END;
+
+   PROCEDURE update_game (
+      p_gid   NUMBER,
+      p_price NUMBER,
+      p_stock NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_update_game;
+      UPDATE games
+         SET price = p_price,
+             stock = p_stock
+       WHERE gid = p_gid;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_update_game;
+         RAISE;
+   END;
+
+   PROCEDURE delete_game (
+      p_gid NUMBER
+   ) IS
+   BEGIN
+      SAVEPOINT sp_delete_game;
+      DELETE FROM games
+       WHERE gid = p_gid;
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_delete_game;
+         RAISE;
+   END;
+
+   PROCEDURE place_order (
+      p_client_id NUMBER,
+      p_game_id   NUMBER,
+      p_quantity  NUMBER
+   ) IS
+      v_stock NUMBER;
+   BEGIN
+      SAVEPOINT sp_place_order;
+      v_stock := get_stock(p_game_id);
+      IF p_quantity &gt; v_stock THEN
+         raise_application_error(
+            -20013,
+            &apos;Stoc insuficient pentru joc.&apos;
+         );
+      END IF;
+      INSERT INTO orders (
+         clients_cid,
+         games_gid,
+         gquantity
+      ) VALUES ( p_client_id,
+                 p_game_id,
+                 p_quantity );
+
+      UPDATE games
+         SET
+         stock = stock - p_quantity
+       WHERE gid = p_game_id;
+
+      COMMIT;
+   EXCEPTION
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_place_order;
+         RAISE;
+   END;
+
+   PROCEDURE cancel_order (
+      p_order_id NUMBER
+   ) IS
+      v_gid      games.gid%TYPE;
+      v_quantity orders.gquantity%TYPE;
+   BEGIN
+      SAVEPOINT sp_cancel_order;
+      SELECT games_gid,
+             gquantity
+        INTO
+         v_gid,
+         v_quantity
+        FROM orders
+       WHERE orid = p_order_id;
+
+      DELETE FROM orders
+       WHERE orid = p_order_id;
+
+      UPDATE games
+         SET
+         stock = stock + v_quantity
+       WHERE gid = v_gid;
+
+      COMMIT;
+   EXCEPTION
+      WHEN no_data_found THEN
+         raise_application_error(
+            -20014,
+            &apos;Comanda inexistenta.&apos;
+         );
+      WHEN OTHERS THEN
+         ROLLBACK TO sp_cancel_order;
+         RAISE;
+   END;
+
+   FUNCTION get_stock (
+      p_game_id NUMBER
+   ) RETURN NUMBER IS
+      v_stock NUMBER;
+   BEGIN
+      SELECT stock
+        INTO v_stock
+        FROM games
+       WHERE gid = p_game_id;
+      RETURN v_stock;
+   EXCEPTION
+      WHEN no_data_found THEN
+         raise_application_error(
+            -20012,
+            &apos;Joc inexistent.&apos;
+         );
+   END;
+
+   FUNCTION get_client_orders (
+      p_client_id NUMBER
+   ) RETURN SYS_REFCURSOR IS
+      rc SYS_REFCURSOR;
+   BEGIN
+      OPEN rc FOR SELECT o.orid,
+                         g.game_name,
+                         o.gquantity,
+                         g.price,
+                         o.gquantity * g.price AS total
+                                FROM orders o
+                                JOIN games g
+                              ON o.games_gid = g.gid
+                   WHERE o.clients_cid = p_client_id;
+      RETURN rc;
+   END;
+
+END pkg_store;</source>
+</body>
+</PackageOracle>

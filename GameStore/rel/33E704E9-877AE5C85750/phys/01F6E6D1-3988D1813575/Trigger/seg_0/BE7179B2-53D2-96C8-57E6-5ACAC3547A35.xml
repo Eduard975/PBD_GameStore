@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TriggerOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TriggerOraclev10g" name="trg_orders_stock_check" directorySegmentName="seg_0" id="BE7179B2-53D2-96C8-57E6-5ACAC3547A35">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:09 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<actions>INSERT, UPDATE</actions>
+<body><![CDATA[DECLARE
+   v_stock games.stock%TYPE;
+BEGIN
+   SELECT stock
+     INTO v_stock
+     FROM games
+    WHERE gid = :new.games_gid;
+   IF :new.gquantity > v_stock THEN
+      raise_application_error(
+         -20001,
+         'Order quantity exceeds available stock.'
+      );
+   END IF;
+END;]]></body>
+<triggerTime>BEFORE</triggerTime>
+<table>18163D14-F36E-33CB-8BA2-FA3BC6838982</table>
+</TriggerOraclev10g>

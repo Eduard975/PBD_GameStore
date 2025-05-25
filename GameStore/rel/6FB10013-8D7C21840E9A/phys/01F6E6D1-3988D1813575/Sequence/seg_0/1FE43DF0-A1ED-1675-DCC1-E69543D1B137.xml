@@ -1,9 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<SequenceOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.SequenceOraclev10g" name="SEQ_PUBLISH" directorySegmentName="seg_0" id="1FE43DF0-A1ED-1675-DCC1-E69543D1B137">
-<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
-<createdBy>Rino</createdBy>
-<createdTime>2025-05-19 11:03:57 UTC</createdTime>
-<ownerDesignName>GameStore</ownerDesignName>
-<incrementBy>1</incrementBy>
-<startWith>1</startWith>
-</SequenceOraclev10g>

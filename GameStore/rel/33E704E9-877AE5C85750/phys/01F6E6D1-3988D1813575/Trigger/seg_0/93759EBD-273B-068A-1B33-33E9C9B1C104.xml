@@ -1,0 +1,13 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TriggerOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TriggerOraclev10g" name="trg_games_bi" directorySegmentName="seg_0" id="93759EBD-273B-068A-1B33-33E9C9B1C104">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:09 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<actions>INSERT</actions>
+<body><![CDATA[BEGIN
+   :new.gid := seq_games.nextval;
+END;]]></body>
+<triggerTime>BEFORE</triggerTime>
+<table>CABCE312-70D1-E180-23E9-CDF64B840D8E</table>
+</TriggerOraclev10g>

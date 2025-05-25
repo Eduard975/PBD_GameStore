@@ -12,5 +12,8 @@
 <designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="84CBD8E0-E1EB-BBC1-803A-AB77500EC4A7">
 <designStoragePath>D:\CreateGameStore</designStoragePath>
 </designDescr>
+<designDescr class="oracle.dbtools.crest.model.design.Design$DesignStorageDesc" id="061EBBC7-F4C5-CBEB-E316-8C5AB084A9C9">
+<designStoragePath>D:\CreateGameStore</designStoragePath>
+</designDescr>
 </usedDesignStorageDescriptors>
 </OSDM_Design>

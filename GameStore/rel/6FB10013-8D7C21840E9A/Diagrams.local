@@ -1,4 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<oracle.dbtools.crest.model.design.relational.RelationalDesign>
-   <object objectType="main_view" objectID="FF5D13AD-6B19-ED87-BC2A-F6EA85B8CBD9" name="GameStore" visible="true"/>
-</oracle.dbtools.crest.model.design.relational.RelationalDesign>

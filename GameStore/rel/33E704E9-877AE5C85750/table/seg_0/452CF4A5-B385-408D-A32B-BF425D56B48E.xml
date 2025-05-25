@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="452CF4A5-B385-408D-A32B-BF425D56B48E" name="clients">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>88B10763-9158-B021-DF4A-C0729D928F69</importedID>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="cid" id="D140B5EB-E703-9787-9183-B187E5DBA42D">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>692DE68A-DFBF-8197-8726-87D1A7077E63</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>3D53FD94-FEE3-FE9E-B827-05B922575633</domain>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="usrnme" id="37BDA0B9-3742-CADD-8E1C-504E67FF3D43">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>D26E5696-A1D6-FD4F-6607-71E02E8D8CC3</importedID>
+<constraintName>chk_usrnme_format</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>40FABBAA-3087-355C-47EC-AC60B9EEFDB0</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 21c" definition="REGEXP_LIKE ( usrnme, &apos;^[a-zA-Z0-9]+$&apos; )"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="passwrd" id="DBF818E4-2486-6F2F-1A09-4E3889A37C08">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>DE4F75D1-4CCA-CF4F-02BB-7783F401B375</importedID>
+<constraintName>chk_passwrd_format</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>0</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<domain>40FABBAA-3087-355C-47EC-AC60B9EEFDB0</domain>
+<checkConstraint>
+<implementationDef dbType="Oracle Database 21c" definition="REGEXP_LIKE ( passwrd, &apos;^[a-zA-Z0-9]+$&apos; )"/>
+</checkConstraint>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="isadm" id="4F5DDAF9-8E0B-A633-F530-BA3D65A79B65">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>3CE5BD07-0E56-0073-EADB-22EC2BA89B0E</importedID>
+<use>0</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<domain>858ECCD0-A366-1477-9B75-7FF5D7C329CE</domain>
+<defaultValue>0</defaultValue>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AE598013-EE04-6094-E42E-779EA265A74F" name="clients_pk">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>8576D349-90A1-5171-074B-80BAABB152FD</importedID>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D140B5EB-E703-9787-9183-B187E5DBA42D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F835FEA0-76C7-EB6A-1F87-A2674EDF63B9" name="clients_usrnme_un">
+<sourceDDLFile>CreateGameStore.sql</sourceDDLFile>
+<createdBy>Rino</createdBy>
+<createdTime>2025-05-25 20:32:17 UTC</createdTime>
+<ownerDesignName>GameStore</ownerDesignName>
+<importedID>092B8C4E-E6AC-1DFB-1CFF-17D2A1B3E29A</importedID>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="37BDA0B9-3742-CADD-8E1C-504E67FF3D43"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
