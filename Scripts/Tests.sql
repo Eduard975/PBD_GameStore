@@ -1,8 +1,6 @@
    SET SERVEROUTPUT ON;
 
--- ======================================================
 -- INSERT TEST: Add client, add game, place order
--- ======================================================
 DECLARE
    v_client_id NUMBER;
    v_game_id   NUMBER;
@@ -38,17 +36,15 @@ BEGIN
       v_game_id,
       2
    );
-   dbms_output.put_line('✅ Insert test passed: Client, Game, and Order added successfully.');
+   dbms_output.put_line('Insert test passed: Client, Game, and Order added successfully.');
    COMMIT;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('❌ Insert test failed - ' || sqlerrm);
+      dbms_output.put_line('Insert test failed - ' || sqlerrm);
       ROLLBACK TO insert_test;
 END;
 /
--- ======================================================
 -- READ TEST: Retrieve client, game, order details
--- ======================================================
 DECLARE
    v_username   clients.usrnme%TYPE;
    v_game_name  games.game_name%TYPE;
@@ -85,7 +81,7 @@ BEGIN
        WHERE game_name = 'CRUD_Game'
    );
 
-   dbms_output.put_line('✅ Read test passed:');
+   dbms_output.put_line('Read test passed:');
    dbms_output.put_line('   Client Username = ' || v_username);
    dbms_output.put_line('   Game Name = ' || v_game_name);
    dbms_output.put_line('   Game STOCK = ' || v_game_stock);
@@ -93,15 +89,13 @@ BEGIN
    dbms_output.put_line('   Order Quantity = ' || v_quantity);
 EXCEPTION
    WHEN no_data_found THEN
-      dbms_output.put_line('❌ Read test failed: Data not found.');
+      dbms_output.put_line('Read test failed: Data not found.');
    WHEN OTHERS THEN
-      dbms_output.put_line('❌ Read test failed - ' || sqlerrm);
+      dbms_output.put_line('Read test failed - ' || sqlerrm);
 END;
 /
 
--- ======================================================
 -- UPDATE TEST: Increase game stock, change game price
--- ======================================================
 DECLARE
    v_game_id    games.gid%TYPE;
    v_game_name  games.game_name%TYPE;
@@ -137,19 +131,17 @@ BEGIN
      FROM games
     WHERE game_name = 'CRUD_Game';
 
-   dbms_output.put_line('✅ Update test passed: Stock and price updated for CRUD_Game.');
+   dbms_output.put_line('Update test passed: Stock and price updated for CRUD_Game.');
    dbms_output.put_line('   Game Name = ' || v_game_name);
    dbms_output.put_line('   Game STOCK = ' || v_game_stock);
    dbms_output.put_line('   Game PRICE = ' || v_game_price);
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('❌ Update test failed - ' || sqlerrm);
+      dbms_output.put_line('Update test failed - ' || sqlerrm);
       ROLLBACK TO update_test;
 END;
 /
--- ======================================================
 -- DELETE TEST: Cancel order, delete game and client
--- ======================================================
 DECLARE
    v_order_id  orders.orid%TYPE;
    v_client_id clients.cid%TYPE;
@@ -186,17 +178,15 @@ BEGIN
     WHERE gid = v_game_id;
 
    COMMIT;
-   dbms_output.put_line('✅ Delete test passed: Order cancelled, client and game removed.');
+   dbms_output.put_line('Delete test passed: Order cancelled, client and game removed.');
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('❌ Delete test failed - ' || sqlerrm);
+      dbms_output.put_line('Delete test failed - ' || sqlerrm);
       ROLLBACK TO delete_test;
 END;
 /
 
--- ======================================================
 -- TEST 1: Invalid username 
--- ======================================================
 BEGIN
    SAVEPOINT test1;
    pkg_shop.add_client(
@@ -206,18 +196,16 @@ BEGIN
       'example@exmp.ro',
       0
    );
-   dbms_output.put_line('❌ Test 1 Failed: Username format accepted incorrectly.');
+   dbms_output.put_line('Test 1 Failed: Username format accepted incorrectly.');
    ROLLBACK TO test1;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 1 Passed: Caught invalid username - ' || sqlerrm);
+      dbms_output.put_line('Test 1 Passed: Caught invalid username - ' || sqlerrm);
       ROLLBACK TO test1;
 END;
 /
 
--- ======================================================
 -- TEST 2: Invalid password
--- ======================================================
 BEGIN
    SAVEPOINT test2;
    pkg_shop.add_client(
@@ -225,18 +213,16 @@ BEGIN
       'pass@word',
       0
    );
-   dbms_output.put_line('❌ Test 2 Failed: Password format accepted incorrectly.');
+   dbms_output.put_line('Test 2 Failed: Password format accepted incorrectly.');
    ROLLBACK TO test2;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 2 Passed: Caught invalid password - ' || sqlerrm);
+      dbms_output.put_line('Test 2 Passed: Caught invalid password - ' || sqlerrm);
       ROLLBACK TO test2;
 END;
 /
 
--- ======================================================
 -- TEST 3: Duplicate username check
--- ======================================================
 DECLARE
    v_username VARCHAR2(20) := 'duplicateuser';
 BEGIN
@@ -251,25 +237,21 @@ BEGIN
       'Valid123',
       0
    );
-   dbms_output.put_line('❌ Test 3 Failed: Duplicate username allowed.');
+   dbms_output.put_line('Test 3 Failed: Duplicate username allowed.');
    ROLLBACK TO test3;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 3 Passed: Caught duplicate username - ' || sqlerrm);
+      dbms_output.put_line('Test 3 Passed: Caught duplicate username - ' || sqlerrm);
       ROLLBACK TO test3;
 END;
 /
 
--- ======================================================
 -- TEST 4: Order exceeding stock
--- ======================================================
 DECLARE
    v_client_id NUMBER;
    v_game_id   NUMBER;
 BEGIN
    SAVEPOINT test4;
-
-  -- Add client
    pkg_shop.add_client(
       'orderuser',
       'Order123',
@@ -297,18 +279,16 @@ BEGIN
       v_game_id,
       10
    );
-   dbms_output.put_line('❌ Test 4 Failed: Order exceeding stock was accepted.');
+   dbms_output.put_line('Test 4 Failed: Order exceeding stock was accepted.');
    ROLLBACK TO test4;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 4 Passed: Caught excessive order quantity - ' || sqlerrm);
+      dbms_output.put_line('Test 4 Passed: Caught excessive order quantity - ' || sqlerrm);
       ROLLBACK TO test4;
 END;
 /
 
--- ======================================================
 -- TEST 5: Adding a unreleased game
--- ======================================================
 BEGIN
    SAVEPOINT test5;
    pkg_shop.add_game(
@@ -320,33 +300,29 @@ BEGIN
       1
    );
 
-   dbms_output.put_line('❌ Test 5 Failed: Future release date accepted.');
+   dbms_output.put_line('Test 5 Failed: Future release date accepted.');
    ROLLBACK TO test5;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 5 Passed: Caught future release date - ' || sqlerrm);
+      dbms_output.put_line('Test 5 Passed: Caught future release date - ' || sqlerrm);
       ROLLBACK TO test5;
 END;
 /
 
--- ======================================================
 -- TEST 6: Cancelling a non-existent order
--- ======================================================
 BEGIN
    SAVEPOINT test6;
    pkg_shop.cancel_order(9999);
-   dbms_output.put_line('❌ Test 6 Failed: Non-existent order cancelled.');
+   dbms_output.put_line('Test 6 Failed: Non-existent order cancelled.');
    ROLLBACK TO test6;
 EXCEPTION
    WHEN OTHERS THEN
-      dbms_output.put_line('✅ Test 6 Passed: Caught invalid order cancellation - ' || sqlerrm);
+      dbms_output.put_line('Test 6 Passed: Caught invalid order cancellation - ' || sqlerrm);
       ROLLBACK TO test6;
 END;
 /
 
--- ======================================================
 -- Clean up
--- ======================================================
 BEGIN
    DELETE FROM orders
     WHERE games_gid IN (
@@ -367,6 +343,6 @@ BEGIN
                       'orderuser',
                       'triggeruser' );
    COMMIT;
-   dbms_output.put_line('✅ Cleanup complete.');
+   dbms_output.put_line('Cleanup complete.');
 END;
 /

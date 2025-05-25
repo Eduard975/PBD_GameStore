@@ -3,13 +3,11 @@
 --   site:      Oracle Database 21c
 --   type:      Oracle Database 21c
 
-
-
 -- predefined type, no DDL - MDSYS.SDO_GEOMETRY
 
 -- predefined type, no DDL - XMLTYPE
 
-CREATE OR REPLACE PACKAGE pkg_shop AS
+CREATE OR REPLACE PACKAGE pkg_store AS
    PROCEDURE add_client (
       p_usrnme  VARCHAR2,
       p_passwrd VARCHAR2,
@@ -60,7 +58,7 @@ CREATE OR REPLACE PACKAGE pkg_shop AS
    FUNCTION get_client_orders (
       p_client_id NUMBER
    ) RETURN SYS_REFCURSOR;
-END pkg_shop;
+END pkg_store;
 /
 
 CREATE SEQUENCE seq_clients START WITH 1 INCREMENT BY 1;
@@ -227,7 +225,7 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE PACKAGE BODY pkg_shop AS
+CREATE OR REPLACE PACKAGE BODY pkg_store AS
    PROCEDURE add_client (
       p_usrnme  VARCHAR2,
       p_passwrd VARCHAR2,
@@ -486,7 +484,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_shop AS
       RETURN rc;
    END;
 
-END pkg_shop;
+END pkg_store;
 /
 
 
