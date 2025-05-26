@@ -212,7 +212,7 @@ BEGIN
   IF :NEW.GQUANTITY > V_STOCK THEN
     RAISE_APPLICATION_ERROR(
       -20001,
-      'Order quantity exceeds available stock.'
+      'Cantitatea ceruta depaseste stocul disponibil.'
     );
   END IF;
 END;
